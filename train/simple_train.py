@@ -1,6 +1,6 @@
 import torch 
 
-from shared.constants import *
+from nn_tools.shared.constants import *
 
 def train(model: nn.Module,
           train_loader,
@@ -11,6 +11,7 @@ def train(model: nn.Module,
           validation_loader=None,
           early_stop_length=None,
           verbose=False,
+          print_every=1,
           additional_models=[]):
 
     stats = {
@@ -51,7 +52,7 @@ def train(model: nn.Module,
 
         train_loss = train_loss / len(train_loader)
         stats['loss_epoch'].append(train_loss)
-        if verbose:
+        if verbose and epoch % print_every == 0:
             print(f"Epoch: {epoch} \t Loss: {train_loss}")
 
         if validation_loader is not None:
@@ -63,7 +64,7 @@ def train(model: nn.Module,
             validation_loss /= len(validation_loader)
             stats['loss_validation'].append(validation_loss)
 
-            if verbose:
+            if verbose and epoch % print_every == 0:
                 print(f"\tValidation loss: {validation_loss}")
 
             if early_stop_length is not None and len(stats['loss_validation']) > early_stop_length:

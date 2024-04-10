@@ -1,10 +1,10 @@
 from torch import nn 
-from shared.constants import *
+from nn_tools.shared.constants import *
 
-def build_mlp(input_dim: int,
-              hidden_layers: list,
-              out_dim: int,
-              activations='relu'):
+def build(input_dim: int,
+        hidden_layers: list,
+        out_dim: int,
+        activations='relu'):
     if not isinstance(activations, list):
         activations = [activations] * (len(hidden_layers))
         activations.append('identity')
