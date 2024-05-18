@@ -7,6 +7,7 @@ def train(model: nn.Module,
           n_epochs=10,
           lr=0.001,
           lr_decay=1.0,
+          weight_decay=0.0,
           loss='L2',
           validation_loader=None,
           early_stop_length=None,
@@ -22,9 +23,9 @@ def train(model: nn.Module,
 
     criterion = LOSS_FUNCTIONS[loss]()
     
-    optimizers = [torch.optim.Adam(model.parameters(), lr=lr)]
+    optimizers = [torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)]
     for m in additional_models:
-        optimizers.append(torch.optim.Adam(m.parameters(), lr=lr))
+        optimizers.append(torch.optim.Adam(m.parameters(), lr=lr, weight_decay=weight_decay))
     
     schedulers = []
     for o in optimizers:

@@ -29,8 +29,12 @@ def build(input_dim: int,
         if not activations[i - 1] in ACTIVATION_FUNCTIONS.keys():
             print(f"{activations[i - 1]} is not a valid activation function. Should be one of {ACTIVATION_FUNCTIONS.keys()}. Using ReLU as default.")
             activations[i - 1] = 'relu'
+        
         activation_fun = ACTIVATION_FUNCTIONS[activations[i - 1]]
-        layers.append(activation_fun())
+        if activations[i - 1] == 'snake':
+            layers.append(activation_fun(out_size, 1.0))
+        else:
+            layers.append(activation_fun())
 
     # Combine all layers into a Sequential model
     mlp = nn.Sequential(*layers)
